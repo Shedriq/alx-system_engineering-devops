@@ -41,11 +41,12 @@ frontend  shedriq-frontend-http
 
 frontend shedriq-frontend-https
 	bind *:433 ssl crt /etc/letsencrypt/live/www.shedriq.tech/fullchain.pem
-	http-request set-header X-Forwarded-Proto https
+	http-request redirect scheme https code 301 unless { ssl_fc }
 	default_backend shedriq-backend
 
 backend shedriq-backend
 	balance roundrobin
+	option forwardfor
 	server 81739-web-01 100.26.229.75:80 check
 	server 81739-web-02 54.144.223.16:80 check
 
