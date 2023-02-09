@@ -8,13 +8,13 @@ import sys
 
 if __name__ == '__main__':
     employeeId = sys.argv[1]
-    baseUrl = "https://jsonplaceholser.typeicode.com/users"
+    baseUrl = "https://jsonplaceholder.typicode.com/users"
     url = baseUrl + "/" + employeeId
 
     response = requests.get(url)
-    username = response.json().gt('username')
+    username = response.json().get('username')
 
-    todoUrl = url + "/tools"
+    todoUrl = url + "/todos"
     response = requests.get(todoUrl)
     tasks = response.json()
 
@@ -23,7 +23,7 @@ if __name__ == '__main__':
         dictionary[employeeId].append({
             "task": task.get('title'),
             "completed": task.get('completed'),
-            "usernam": username
+            "username": username
         })
     with open('{}.json'.format(employeeId), 'w') as filename:
         json.dump(dictionary, filename)
